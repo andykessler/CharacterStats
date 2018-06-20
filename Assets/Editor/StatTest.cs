@@ -81,6 +81,29 @@ public class StatTest
     }
 
     [Test]
+    public void CalculateFinalValueCorrectOrder_Test()
+    {
+        float baseValue = 10f;
+        Stat stat = new Stat(baseValue);
+        StatModifier[] mods = new StatModifier[] {
+            new StatModifier(1.0f, StatModifierType.PercentMult),
+            new StatModifier(50f, StatModifierType.Flat),
+            new StatModifier(0.8f, StatModifierType.PercentAdd),
+            new StatModifier(1.5f, StatModifierType.PercentMult),
+            new StatModifier(40f, StatModifierType.Flat),
+            new StatModifier(0.2f, StatModifierType.PercentAdd),
+        };
+        float finalValue = (baseValue + 90f) * (2f) * (2f * 2.5f);
+
+        Assert.That(stat.Value, Is.EqualTo(baseValue));
+
+        foreach (var m in mods)
+            stat.AddModifier(m);
+
+        Assert.That(stat.Value, Is.EqualTo(finalValue));
+    }
+
+    [Test]
     public void RemoveAllModifiersFromSource_Test()
     {
         object source1 = new object();
