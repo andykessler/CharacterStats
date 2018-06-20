@@ -41,7 +41,7 @@ public class Stat
     {
         isDirty = true;
         statModifiers.Add(mod);
-        statModifiers.Sort(CompareModifierOrder);
+        statModifiers.Sort(); // FIXME Don't sort every time
     }
 
     public virtual bool RemoveModifier(StatModifier mod)
@@ -68,16 +68,7 @@ public class Stat
         }
         return didRemove;
     }
-
-    protected virtual int CompareModifierOrder(StatModifier a, StatModifier b)
-    {
-        if (a.Order < b.Order)
-            return -1;
-        else if (a.Order > b.Order)
-            return 1;
-        return 0; //if (a.Order == b.Order)
-    }
-
+    
     protected virtual float CalculateFinalValue()
     {
         float finalValue = BaseValue;
