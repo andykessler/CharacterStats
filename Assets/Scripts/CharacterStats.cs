@@ -2,27 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Consider moving to Stat.cs?
-public enum StatType
-{
-    Strength,
-    Dexterity,
-    Intellect,
-    Constitution,
-}
-
 public class CharacterStats : MonoBehaviour {
 
-    // TODO Editor with field for each StatType instead of hardcoding vars
-    public float baseStr, baseDex, baseInt, baseCon;
-    public Dictionary<StatType, Stat> stats;
+    [SerializeField]
+    public List<Stat> statList;
 
-	void Start () {
+    // now consider...do all character have every stat type?
+    // if they dont we have to null check before evaluation.
+    public Dictionary<StatType, Stat> stats;
+    
+    void Start () {
         stats = new Dictionary<StatType, Stat>();
-        stats.Add(StatType.Strength, new Stat(baseStr));
-        stats.Add(StatType.Dexterity, new Stat(baseDex));
-        stats.Add(StatType.Intellect, new Stat(baseInt));
-        stats.Add(StatType.Constitution, new Stat(baseCon));
+        foreach(Stat s in statList)
+        {
+            if(!stats.ContainsKey(s.Type))
+            {
+                stats[s.Type] = s;
+            }
+            else
+            {
+                Debug.LogWarning("Duplicate StatType: " + s.Type);
+            }
+        }
     }
 
     void Update () {

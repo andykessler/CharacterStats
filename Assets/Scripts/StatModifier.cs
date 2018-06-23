@@ -7,7 +7,7 @@ public enum StatModifierType
     PercentMult = 300,
 }
 
-//[Serializable]
+[Serializable]
 public class StatModifier : IComparable<StatModifier> {
 
     public readonly float Value;

@@ -1,14 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using UnityEngine;
+
+public enum StatType
+{
+    UNDEFINED, // Should there be an "Undefined" Type?
+    Strength,
+    Dexterity,
+    Intellect,
+    Constitution,
+}
 
 [Serializable]
 public class Stat
 {
-    public float BaseValue;
+    public StatType Type = StatType.UNDEFINED;
+    public float BaseValue = 0; // FIXME if you change with Inspector it doesn't update Value
+    protected float lastBaseValue = 0;
     protected bool isDirty = true;
-    protected float lastBaseValue;
 
+    [SerializeField] // FIXME display latest value in Inspector, force update?
     protected float _value;
     public virtual float Value
     {
@@ -35,6 +47,17 @@ public class Stat
     public Stat(float baseValue) : this()
     {
         BaseValue = baseValue;
+    }
+
+    public Stat(StatType type) : this()
+    {
+        Type = type;
+    }
+
+    public Stat(float baseValue, StatType type) : this()
+    {
+        BaseValue = baseValue;
+        Type = type;
     }
 
     public virtual void AddModifier(StatModifier mod)
