@@ -1,19 +1,12 @@
 ﻿using System;
 
-public enum StatModifierType
-{
-    Flat = 100,
-    PercentAdd = 200,
-    PercentMult = 300,
-}
-
 [Serializable]
 public class StatModifier : IComparable<StatModifier> {
 
-    public readonly float Value;
-    public readonly StatModifierType Type;
-    public readonly int Order;
-    public readonly object Source; // is this worth?
+    public StatModifierType Type;
+    public float Value;
+    public int Order;
+    public object Source; // is this worth?
 
     public StatModifier(float value, StatModifierType type, int order, object source)
     {

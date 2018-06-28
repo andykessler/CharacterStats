@@ -3,19 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
 
-public enum StatType
-{
-    UNDEFINED, // Should there be an "Undefined" Type?
-    Strength,
-    Dexterity,
-    Intellect,
-    Constitution,
-}
-
 [Serializable]
 public class Stat
 {
-    public StatType Type = StatType.UNDEFINED;
+    // TODO Add event to subscribe to update events
+
+    public StatType Type;
     public float BaseValue = 0; // FIXME if you change with Inspector it doesn't update Value
     protected float lastBaseValue = 0;
     protected bool isDirty = true;
@@ -35,6 +28,7 @@ public class Stat
         }
     }
 
+    // TODO Find a way to read in Unity inspector
     protected readonly List<StatModifier> statModifiers;
     public readonly ReadOnlyCollection<StatModifier> StatModifiers;
 
