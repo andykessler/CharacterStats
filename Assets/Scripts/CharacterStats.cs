@@ -10,7 +10,7 @@ public class CharacterStats : MonoBehaviour {
 
     // now consider...do all character have every stat type?
     // if they dont we have to null check before evaluation.
-    public Dictionary<StatType, Stat> stats;
+    private Dictionary<StatType, Stat> stats;
     
     void Start () {
         stats = new Dictionary<StatType, Stat>();
@@ -31,10 +31,7 @@ public class CharacterStats : MonoBehaviour {
         // Test Controller to Play With StatModifiers
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            StatType statType = StatType.Strength;
-            Stat s = stats[statType];
-            string msg = string.Format("Base: {0} Final: {1}", s.BaseValue, s.Value);
-            Debug.Log(msg);
+            OnValidate();
         }
 
         if (Input.GetKeyUp(KeyCode.Alpha1))
@@ -68,5 +65,10 @@ public class CharacterStats : MonoBehaviour {
             msg += string.Format("{0}: {1}\n", s.Type, s.Value); // this will update inspector
         }
         Debug.Log(msg);
+    }
+
+    public Stat GetStat(StatType type)
+    {
+        return stats[type];
     }
 }

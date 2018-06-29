@@ -5,9 +5,22 @@ using UnityEngine;
 
 public abstract class Equipment : Item
 {
-    // TODO Map StatType to StatModifier, needs to be editable through Unity inspector
     [SerializeField]
-    public List<StatModifier> StatModifiers; 
+    public List<StatModifier> StatModifiers;
 
-    // TODO Consider equip/unequip logic here
+    public virtual void Equip(CharacterStats cs)
+    {
+        foreach(StatModifier mod in StatModifiers)
+        {
+            cs.GetStat(mod.StatType).AddModifier(mod);
+        }
+    }
+
+    public virtual void Unequip(CharacterStats cs)
+    {
+        foreach (StatModifier mod in StatModifiers)
+        {
+            cs.GetStat(mod.StatType).RemoveModifier(mod);
+        }
+    }
 }
