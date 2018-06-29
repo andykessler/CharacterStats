@@ -30,27 +30,31 @@ public class CharacterStats : MonoBehaviour {
         // Test Controller to Play With StatModifiers
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            Stat s = stats[StatType.Strength];
+            StatType statType = StatType.Strength;
+            Stat s = stats[statType];
             string msg = string.Format("Base: {0} Final: {1}", s.BaseValue, s.Value);
             Debug.Log(msg);
         }
 
         if (Input.GetKeyUp(KeyCode.Alpha1))
         {
-            Stat s = stats[StatType.Strength];
-            s.AddModifier(new StatModifier(1f, StatModifierType.Flat));
+            StatType statType = StatType.Strength;
+            Stat s = stats[statType];
+            s.AddModifier(new StatModifier(statType, StatModifierType.Flat, 1f));
         }
 
         if (Input.GetKeyUp(KeyCode.Alpha2))
         {
+            StatType statType = StatType.Strength;
             Stat s = stats[StatType.Strength];
-            s.AddModifier(new StatModifier(.5f, StatModifierType.PercentAdd));
+            s.AddModifier(new StatModifier(statType, StatModifierType.PercentAdd, .5f));
         }
 
         if (Input.GetKeyUp(KeyCode.Alpha3))
         {
+            StatType statType = StatType.Strength;
             Stat s = stats[StatType.Strength];
-            s.AddModifier(new StatModifier(1f, StatModifierType.PercentMult));
+            s.AddModifier(new StatModifier(statType, StatModifierType.PercentMult, 1f));
         }
     }
 }

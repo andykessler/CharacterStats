@@ -28,7 +28,7 @@ public class StatTest
     [Test]
     public void AddModifier_Test()
     {
-        StatModifier mod = new StatModifier(10f, StatModifierType.Flat);
+        StatModifier mod = new StatModifier(StatType.Strength, StatModifierType.Flat, 10f);
         Stat stat = new Stat();
    
         Assert.That(stat.StatModifiers.Count, Is.EqualTo(0));
@@ -42,8 +42,8 @@ public class StatTest
     [Test]
     public void RemoveModifier_Test()
     {
-        StatModifier mod1 = new StatModifier(10f, StatModifierType.Flat);
-        StatModifier mod2 = new StatModifier(.05f, StatModifierType.PercentAdd);
+        StatModifier mod1 = new StatModifier(StatType.Strength, StatModifierType.Flat, 10f);
+        StatModifier mod2 = new StatModifier(StatType.Strength, StatModifierType.PercentAdd, 0.05f);
         Stat stat = new Stat();
 
         stat.AddModifier(mod1);
@@ -63,12 +63,12 @@ public class StatTest
         float baseValue = 10f;
         Stat stat = new Stat(baseValue);
         StatModifier[] mods = new StatModifier[] {
-            new StatModifier(50f, StatModifierType.Flat),
-            new StatModifier(40f, StatModifierType.Flat),
-            new StatModifier(0.8f, StatModifierType.PercentAdd),
-            new StatModifier(0.2f, StatModifierType.PercentAdd),
-            new StatModifier(1.0f, StatModifierType.PercentMult),
-            new StatModifier(1.5f, StatModifierType.PercentMult),
+            new StatModifier(StatType.Strength, StatModifierType.Flat, 50f),
+            new StatModifier(StatType.Strength, StatModifierType.Flat, 40f),
+            new StatModifier(StatType.Strength, StatModifierType.PercentAdd, 0.8f),
+            new StatModifier(StatType.Strength, StatModifierType.PercentAdd, 0.2f),
+            new StatModifier(StatType.Strength, StatModifierType.PercentMult, 1.0f),
+            new StatModifier(StatType.Strength, StatModifierType.PercentMult, 1.5f),
         };
         float finalValue = (baseValue + 90f) * (2f) * (2f * 2.5f);
 
@@ -86,12 +86,12 @@ public class StatTest
         float baseValue = 10f;
         Stat stat = new Stat(baseValue);
         StatModifier[] mods = new StatModifier[] {
-            new StatModifier(1.0f, StatModifierType.PercentMult),
-            new StatModifier(50f, StatModifierType.Flat),
-            new StatModifier(0.8f, StatModifierType.PercentAdd),
-            new StatModifier(1.5f, StatModifierType.PercentMult),
-            new StatModifier(40f, StatModifierType.Flat),
-            new StatModifier(0.2f, StatModifierType.PercentAdd),
+            new StatModifier(StatType.Strength, StatModifierType.PercentMult, 1.0f),
+            new StatModifier(StatType.Strength, StatModifierType.Flat, 50f),
+            new StatModifier(StatType.Strength, StatModifierType.PercentAdd, 0.8f),
+            new StatModifier(StatType.Strength, StatModifierType.PercentMult, 1.5f),
+            new StatModifier(StatType.Strength, StatModifierType.Flat, 40f),
+            new StatModifier(StatType.Strength, StatModifierType.PercentAdd, 0.2f),
         };
         float finalValue = (baseValue + 90f) * (2f) * (2f * 2.5f);
 
@@ -111,9 +111,9 @@ public class StatTest
         Stat stat = new Stat();
         StatModifier[] mods = new StatModifier[]
         {
-            new StatModifier(50f, StatModifierType.Flat, source1),
-            new StatModifier(0.8f, StatModifierType.PercentAdd, source2),
-            new StatModifier(1.0f, StatModifierType.PercentMult, source2),
+            new StatModifier(StatType.Strength, StatModifierType.Flat, 50f, source1),
+            new StatModifier(StatType.Strength, StatModifierType.PercentAdd, 0.8f, source2),
+            new StatModifier(StatType.Strength, StatModifierType.PercentMult, 1.0f, source2),
         };
         foreach(var m in mods)
             stat.AddModifier(m);

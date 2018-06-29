@@ -94,7 +94,7 @@ public class Stat
         for (int i = 0; i < statModifiers.Count; i++)
         {
             StatModifier mod = statModifiers[i];
-            switch(mod.Type)
+            switch(mod.ModType)
             {
                 case StatModifierType.Flat:
                     finalValue += mod.Value;
@@ -103,7 +103,7 @@ public class Stat
                 case StatModifierType.PercentAdd:
                     sumPercentAdd += mod.Value;
                     // Since statModifiers is sorted, can assume once we change types, not longer will see more PercentAdd types...
-                    if (i + 1 >= statModifiers.Count || statModifiers[i + 1].Type != StatModifierType.PercentAdd)
+                    if (i + 1 >= statModifiers.Count || statModifiers[i + 1].ModType != StatModifierType.PercentAdd)
                     {
                         finalValue *= 1 + sumPercentAdd;
                         sumPercentAdd = 0;
