@@ -6,23 +6,24 @@ public class StatModifier : IComparable<StatModifier> {
     public StatType StatType;
     public StatModifierType ModType;
     public float Value;
-    public int Order;
     public object Source; // is this worth?
 
-    public StatModifier(StatType statType, StatModifierType modType, float value, int order, object source)
+    protected int Order
+    {
+        get {
+            return (int) ModType;
+        }
+    }
+
+    public StatModifier(StatType statType, StatModifierType modType, float value, object source)
     {
         StatType = statType;
         ModType = modType;
         Value = value;
-        Order = order;
         Source = source;
     }
 
-    public StatModifier(StatType statType, StatModifierType modType, float value) : this(statType, modType, value, (int) modType, null) { }
-
-    public StatModifier(StatType statType, StatModifierType modType, float value, int order) : this(statType, modType, value, order, null) { }
-
-    public StatModifier(StatType statType, StatModifierType modType, float value, object source) : this(statType, modType, value, (int) modType, source) { }
+    public StatModifier(StatType statType, StatModifierType modType, float value) : this(statType, modType, value, null) { }
 
     // What about comparing by other fields? e.g. Value
     public int CompareTo(StatModifier other)

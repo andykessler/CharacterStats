@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using UnityEngine;
 
 [Serializable]
@@ -20,6 +19,7 @@ public class Stat
         get {
             if (isDirty || lastBaseValue != BaseValue)
             {
+                StatModifiers.Sort(); // FIXME Better, but still don't sort every time...
                 lastBaseValue = BaseValue;
                 _value = CalculateFinalValue();
                 isDirty = false;
@@ -27,15 +27,12 @@ public class Stat
             return _value;
         }
     }
-
-    // TODO Find a way to read in Unity inspector
-    protected readonly List<StatModifier> statModifiers;
-    public readonly ReadOnlyCollection<StatModifier> StatModifiers;
+  
+    public List<StatModifier> StatModifiers;
 
     public Stat()
     {
-        statModifiers = new List<StatModifier>();
-        StatModifiers = statModifiers.AsReadOnly();
+        StatModifiers = new List<StatModifier>();
     }
 
     public Stat(float baseValue) : this()
@@ -57,13 +54,12 @@ public class Stat
     public virtual void AddModifier(StatModifier mod)
     {
         isDirty = true;
-        statModifiers.Add(mod);
-        statModifiers.Sort(); // FIXME Don't sort every time
+        StatModifiers.Add(mod);
     }
 
     public virtual bool RemoveModifier(StatModifier mod)
     {
-        if(statModifiers.Remove(mod))
+        if(StatModifiers.Remove(mod))
         {
             isDirty = true;
             return true;
@@ -74,13 +70,13 @@ public class Stat
     public virtual bool RemoveAllModifiersFromSource(object source)
     {
         bool didRemove = false;
-        for (int i = statModifiers.Count - 1; i >= 0; i--)
+        for (int i = StatModifiers.Count - 1; i >= 0; i--)
         {
-            if (statModifiers[i].Source == source)
+            if (StatModifiers[i].Source == source)
             {
                 isDirty = true;
                 didRemove = true;
-                statModifiers.RemoveAt(i);
+                StatModifiers.RemoveAt(i);
             }
         }
         return didRemove;
@@ -91,9 +87,9 @@ public class Stat
         float finalValue = BaseValue;
         float sumPercentAdd = 0;
 
-        for (int i = 0; i < statModifiers.Count; i++)
+        for (int i = 0; i < StatModifiers.Count; i++)
         {
-            StatModifier mod = statModifiers[i];
+            StatModifier mod = StatModifiers[i];
             switch(mod.ModType)
             {
                 case StatModifierType.Flat:
@@ -103,7 +99,7 @@ public class Stat
                 case StatModifierType.PercentAdd:
                     sumPercentAdd += mod.Value;
                     // Since statModifiers is sorted, can assume once we change types, not longer will see more PercentAdd types...
-                    if (i + 1 >= statModifiers.Count || statModifiers[i + 1].ModType != StatModifierType.PercentAdd)
+                    if (i + 1 >= StatModifiers.Count || StatModifiers[i + 1].ModType != StatModifierType.PercentAdd)
                     {
                         finalValue *= 1 + sumPercentAdd;
                         sumPercentAdd = 0;
@@ -118,5 +114,10 @@ public class Stat
 
         // Workaround for float calculation errors, like displaying 12.00002 instead of 12
         return (float) Math.Round(finalValue, 4);
+    }
+
+    public void Invalidate()
+    {
+        isDirty = true;
     }
 }

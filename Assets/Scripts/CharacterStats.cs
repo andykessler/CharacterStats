@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class CharacterStats : MonoBehaviour {
 
     [SerializeField]
@@ -56,5 +57,16 @@ public class CharacterStats : MonoBehaviour {
             Stat s = stats[StatType.Strength];
             s.AddModifier(new StatModifier(statType, StatModifierType.PercentMult, 1f));
         }
+    }
+
+    private void OnValidate()
+    {
+        string msg = "";
+        foreach(Stat s in statList)
+        {
+            s.Invalidate();
+            msg += string.Format("{0}: {1}\n", s.Type, s.Value); // this will update inspector
+        }
+        Debug.Log(msg);
     }
 }
