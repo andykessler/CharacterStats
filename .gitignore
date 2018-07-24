@@ -1,1 +1,12 @@
-Assets/Standard Assets/*
+Assets/Standard Assets*
+Assets/Items*
+Assets/Scenes*
+GlobalSuppressions.cs
+Library*
+ProjectSettings*
+Temp*
+UnityPackageManager*
+
+*.sln
+*.csproj
+.vs*
