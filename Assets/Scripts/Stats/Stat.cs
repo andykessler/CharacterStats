@@ -5,27 +5,29 @@ using UnityEngine;
 [Serializable]
 public class Stat
 {
-    // TODO Add event to subscribe to update events
-
     public StatType Type;
-    public float BaseValue = 0; // FIXME if you change with Inspector it doesn't update Value
-    protected float lastBaseValue = 0;
-    protected bool isDirty = true;
+    public float BaseValue = 0;
 
-    [SerializeField] // FIXME display latest value in Inspector, force update?
+    public delegate void ValueUpdatedHandler();
+    private event ValueUpdatedHandler OnValueUpdated;
+
+    [SerializeField]
     protected float _value;
     public virtual float Value
     {
         get {
-            if (isDirty || lastBaseValue != BaseValue)
-            {
-                StatModifiers.Sort(); // FIXME Better, but still don't sort every time...
-                lastBaseValue = BaseValue;
-                _value = CalculateFinalValue();
-                isDirty = false;
-            }
             return _value;
         }
+    }
+
+    public void RegisterOnValueUpdatedHandler(ValueUpdatedHandler handler)
+    {
+        OnValueUpdated += handler;
+    }
+
+    public void UnregisterOnValueUpdatedHandler(ValueUpdatedHandler handler)
+    {
+        OnValueUpdated -= handler;
     }
   
     public List<StatModifier> StatModifiers;
@@ -33,6 +35,7 @@ public class Stat
     public Stat()
     {
         StatModifiers = new List<StatModifier>();
+        RegisterOnValueUpdatedHandler(CalculateFinalValue);
     }
 
     public Stat(float baseValue) : this()
@@ -53,15 +56,15 @@ public class Stat
 
     public virtual void AddModifier(StatModifier mod)
     {
-        isDirty = true;
         StatModifiers.Add(mod);
+        OnValueUpdated();
     }
 
     public virtual bool RemoveModifier(StatModifier mod)
     {
         if(StatModifiers.Remove(mod))
         {
-            isDirty = true;
+            OnValueUpdated();
             return true;
         }
         return false;
@@ -74,16 +77,22 @@ public class Stat
         {
             if (StatModifiers[i].Source == source)
             {
-                isDirty = true;
                 didRemove = true;
                 StatModifiers.RemoveAt(i);
             }
         }
+
+        if(didRemove)
+        {
+            OnValueUpdated();
+        }
         return didRemove;
     }
     
-    protected virtual float CalculateFinalValue()
+    protected virtual void CalculateFinalValue() // should this still return float?
     {
+        StatModifiers.Sort(); // FIXME Better, but still don't sort every time...
+
         float finalValue = BaseValue;
         float sumPercentAdd = 0;
 
@@ -113,11 +122,11 @@ public class Stat
         }
 
         // Workaround for float calculation errors, like displaying 12.00002 instead of 12
-        return (float) Math.Round(finalValue, 4);
+        _value = (float) Math.Round(finalValue, 4);
     }
 
     public void Invalidate()
     {
-        isDirty = true;
+        OnValueUpdated(); // alias for now I guess?
     }
 }
