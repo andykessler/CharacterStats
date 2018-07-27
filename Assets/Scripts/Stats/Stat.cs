@@ -34,6 +34,7 @@ public class Stat
 
     public Stat()
     {
+        _value = BaseValue;
         StatModifiers = new List<StatModifier>();
         RegisterOnValueUpdatedHandler(CalculateFinalValue);
     }
@@ -91,14 +92,17 @@ public class Stat
     
     protected virtual void CalculateFinalValue() // should this still return float?
     {
-        StatModifiers.Sort(); // FIXME Better, but still don't sort every time...
+        // To fix the inspector updating everytime which causes weird issues. I'm not saving results of the sort.
+        // Since already sorting every time might as well...will find better way without heavy/any sorting soon.
+        List<StatModifier> mods = new List<StatModifier>(StatModifiers);
+        mods.Sort();
 
         float finalValue = BaseValue;
         float sumPercentAdd = 0;
 
-        for (int i = 0; i < StatModifiers.Count; i++)
+        for (int i = 0; i < mods.Count; i++)
         {
-            StatModifier mod = StatModifiers[i];
+            StatModifier mod = mods[i];
             switch(mod.ModType)
             {
                 case StatModifierType.Flat:
@@ -108,7 +112,7 @@ public class Stat
                 case StatModifierType.PercentAdd:
                     sumPercentAdd += mod.Value;
                     // Since statModifiers is sorted, can assume once we change types, not longer will see more PercentAdd types...
-                    if (i + 1 >= StatModifiers.Count || StatModifiers[i + 1].ModType != StatModifierType.PercentAdd)
+                    if (i + 1 >= mods.Count || mods[i + 1].ModType != StatModifierType.PercentAdd)
                     {
                         finalValue *= 1 + sumPercentAdd;
                         sumPercentAdd = 0;
