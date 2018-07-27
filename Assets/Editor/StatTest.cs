@@ -19,7 +19,7 @@ public class StatTest
     public void CreateStatWithValue_Test()
     {
         Stat stat = new Stat(3.5f);
-
+        Assert.That(stat.BaseValue, Is.EqualTo(3.5f));
         Assert.That(stat.Value, Is.EqualTo(3.5f));
         Assert.That(stat.StatModifiers, Is.Not.Null);
         Assert.That(stat.StatModifiers.Count, Is.EqualTo(0));
