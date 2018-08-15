@@ -9,7 +9,7 @@ public class StatTest
     public void CreateStat_Test()
     {
         Stat stat = new Stat();
-
+        Assert.That(stat.BaseValue, Is.EqualTo(0f));
         Assert.That(stat.Value, Is.EqualTo(0f));
         Assert.That(stat.StatModifiers, Is.Not.Null);
         Assert.That(stat.StatModifiers.Count, Is.EqualTo(0));
