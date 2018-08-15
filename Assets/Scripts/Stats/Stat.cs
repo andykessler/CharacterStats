@@ -34,7 +34,6 @@ public class Stat
 
     public Stat()
     {
-        _value = BaseValue;
         StatModifiers = new List<StatModifier>();
         RegisterOnValueUpdatedHandler(CalculateFinalValue);
     }
@@ -42,6 +41,7 @@ public class Stat
     public Stat(float baseValue) : this()
     {
         BaseValue = baseValue;
+        Invalidate();
     }
 
     public Stat(StatType type) : this()
@@ -53,6 +53,7 @@ public class Stat
     {
         BaseValue = baseValue;
         Type = type;
+        Invalidate();
     }
 
     public virtual void AddModifier(StatModifier mod)
