@@ -5,6 +5,13 @@ using System;
 [Serializable]
 public class DerivedStatModifier : StatModifier
 {
+    public override float Value
+    {
+        get {
+            return stat.Value * ratio;
+        }
+    }
+
     // The Stat which this modifier depends on
     public Stat stat;
 
@@ -16,6 +23,8 @@ public class DerivedStatModifier : StatModifier
     public float max;
 
     // TODO Shorten number of constructor params
+    // try removing StatType, value, and source (stat is source?)
+    // min and max to a single bound/range object
     public DerivedStatModifier(StatType statType, StatModifierType modType, float value, object source, Stat stat, float ratio, float min, float max) : base(statType, modType, value, source)
     {
         this.stat = stat;

@@ -20,7 +20,12 @@ public class DerivedStatTest
         float min = 0f, max = 99f; // max to inf?
         DerivedStatModifier derivedStatModifier = new DerivedStatModifier(StatType.CriticalHit, StatModifierType.Flat, 0f, stat1, stat1, ratio, min, max);
 
+        Assert.That(derivedStatModifier.Value, Is.EqualTo(1f));
+
         StatModifier statModifier = (StatModifier) derivedStatModifier;
+
+        Assert.That(statModifier.Value, Is.EqualTo(1f));
+
         stat2.AddModifier(statModifier);
 
         Assert.That(stat1.Value, Is.EqualTo(val1));

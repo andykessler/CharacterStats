@@ -1,13 +1,21 @@
 ﻿using System;
+using UnityEngine;
 
 [Serializable]
 public class StatModifier : IComparable<StatModifier> {
 
     public StatType StatType;
     public StatModifierType ModType;
-    public float Value;
     public object Source; // is this worth?
 
+    [SerializeField]
+    protected float _value;
+    public virtual float Value {
+        get {
+            return _value;
+        }
+    }
+    
     protected int Order
     {
         get {
@@ -19,7 +27,7 @@ public class StatModifier : IComparable<StatModifier> {
     {
         StatType = statType;
         ModType = modType;
-        Value = value;
+        _value = value;
         Source = source;
     }
 
@@ -34,5 +42,7 @@ public class StatModifier : IComparable<StatModifier> {
             return 1;
         return 0; //if (Order == other.Order)
     }
+
+
 
 }
