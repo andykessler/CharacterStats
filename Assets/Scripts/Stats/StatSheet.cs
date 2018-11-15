@@ -10,15 +10,22 @@ public class StatSheet {
     public StatSheet()
     {
         stats = new Dictionary<StatType, Stat>();
-        StatType[] types = (StatType[]) System.Enum.GetValues(typeof(StatType));
-        foreach (StatType type in types)
+        foreach (StatType type in StatFormulas.STAT_TYPES)
         {
             Stat s = new Stat(type);
             s.sheet = this;
             stats.Add(type, s);
         }
-        
-        foreach (StatType type in types)
+        RegisterStatFormulaDependencies();
+    }
+
+    public Stat Get(StatType type)
+    {
+        return stats[type];
+    }
+
+    public void RegisterStatFormulaDependencies() {
+        foreach (StatType type in stats.Keys)
         {
             Stat stat = stats[type];
             StatType[] deps = StatFormulas.dependencyMap[type];
@@ -28,11 +35,6 @@ public class StatSheet {
                 stats[dep].RegisterOnValueUpdatedHandler(stat.Invalidate);
             }
         }
-    }
-
-    public Stat Get(StatType type)
-    {
-        return stats[type];
     }
 
 }

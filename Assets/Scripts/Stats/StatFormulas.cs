@@ -8,6 +8,8 @@ public static class StatFormulas {
     public delegate float Formula(StatSheet sheet, float baseValue);
     private static Formula identity = (s, b) => b; // just returns base value
 
+    public static readonly StatType[] STAT_TYPES = (StatType[]) System.Enum.GetValues(typeof(StatType));
+
     // There is an assumption that this hardcoded dependency map has no mistakes and reflects correctly against the formula map.
     // null list means the Stat has no dependencies.
     public static readonly Dictionary<StatType, StatType[]> dependencyMap = new Dictionary<StatType, StatType[]>
