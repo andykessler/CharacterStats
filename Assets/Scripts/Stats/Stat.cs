@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -9,6 +10,7 @@ public class Stat
     public float BaseValue = 0; // TODO Remove public visibility to avoid rogue changes
 
     public List<StatModifier> StatModifiers;
+    private Dictionary<StatModifierType, List<StatModifier>> modMap;
 
     // TODO Bring in this value to constructor...
     public StatSheet sheet; // the StatSheet this Stat belongs to
@@ -38,6 +40,11 @@ public class Stat
     public Stat()
     {
         StatModifiers = new List<StatModifier>();
+        modMap = new Dictionary<StatModifierType, List<StatModifier>>();
+        foreach(StatModifierType modType in System.Enum.GetValues(typeof(StatModifierType)))
+        {
+            modMap.Add(modType, new List<StatModifier>());
+        }
         RegisterOnValueUpdatedHandler(CalculateFinalValue);
     }
 
@@ -62,6 +69,7 @@ public class Stat
     public virtual void AddModifier(StatModifier mod)
     {
         StatModifiers.Add(mod);
+        modMap[mod.ModType].Add(mod);
         OnValueUpdated();
     }
 
@@ -70,6 +78,7 @@ public class Stat
         if (StatModifiers.Remove(mod))
         {
             OnValueUpdated();
+            modMap[mod.ModType].Remove(mod);
             return true;
         }
         return false;
@@ -99,40 +108,18 @@ public class Stat
         return didRemove;
     }
 
-    protected virtual void CalculateFinalValue() // should this still return float?
+    protected virtual void CalculateFinalValue() // should this return float?
     {
-        // To fix the inspector updating everytime which causes weird issues. I'm not saving results of the sort.
-        // Since already sorting every time might as well...will find better way without heavy/any sorting soon.
-        List<StatModifier> mods = new List<StatModifier>(StatModifiers);
-        mods.Sort();
-
-        float finalValue = StatFormulas.formulaMap[Type](sheet, BaseValue);
-        float sumPercentAdd = 0;
-
-        for (int i = 0; i < mods.Count; i++)
+        float derivedValue = StatFormulas.formulaMap[Type](sheet, BaseValue);
+        float flatSum = modMap[StatModifierType.Flat].Sum(x => x.Value);
+        float percentSum = 1f + modMap[StatModifierType.PercentAdd].Sum(x => x.Value);
+        float percentProduct = 1f; // there is Linq Aggregate function but had type issues
+        foreach(StatModifier m in modMap[StatModifierType.PercentMult])
         {
-            StatModifier mod = mods[i];
-            switch (mod.ModType)
-            {
-                case StatModifierType.Flat:
-                    finalValue += mod.Value;
-                    break;
-
-                case StatModifierType.PercentAdd:
-                    sumPercentAdd += mod.Value;
-                    // Since statModifiers is sorted, can assume once we change types, not longer will see more PercentAdd types...
-                    if (i + 1 >= mods.Count || mods[i + 1].ModType != StatModifierType.PercentAdd)
-                    {
-                        finalValue *= 1 + sumPercentAdd;
-                        sumPercentAdd = 0;
-                    }
-                    break;
-
-                case StatModifierType.PercentMult:
-                    finalValue *= 1 + mod.Value;
-                    break;
-            }
+            percentProduct *= 1f + m.Value;
         }
+
+        float finalValue = (derivedValue + flatSum) * percentSum * percentProduct;
 
         // Workaround for float calculation errors, like displaying 12.00002 instead of 12
         _value = (float) Math.Round(finalValue, 4);
