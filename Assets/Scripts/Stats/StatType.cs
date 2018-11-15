@@ -4,4 +4,5 @@
     Dexterity,
     Intellect,
     Constitution,
+    CriticalHit,
 }

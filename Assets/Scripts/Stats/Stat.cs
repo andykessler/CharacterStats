@@ -6,13 +6,18 @@ using UnityEngine;
 public class Stat
 {
     public StatType Type;
-    public float BaseValue = 0;
+    public float BaseValue = 0; // TODO Remove public visibility to avoid rogue changes
+
+    public List<StatModifier> StatModifiers;
+
+    // TODO Bring in this value to constructor...
+    public StatSheet sheet; // the StatSheet this Stat belongs to
 
     public delegate void ValueUpdatedHandler();
     private event ValueUpdatedHandler OnValueUpdated;
 
     [SerializeField]
-    protected float _value;
+    protected float _value; // caches value to reduce calculations
     public virtual float Value
     {
         get {
@@ -29,8 +34,6 @@ public class Stat
     {
         OnValueUpdated -= handler;
     }
-  
-    public List<StatModifier> StatModifiers;
 
     public Stat()
     {
@@ -64,12 +67,17 @@ public class Stat
 
     public virtual bool RemoveModifier(StatModifier mod)
     {
-        if(StatModifiers.Remove(mod))
+        if (StatModifiers.Remove(mod))
         {
             OnValueUpdated();
             return true;
         }
         return false;
+    }
+
+    public virtual void SetBaseValue(float baseValue) {
+        this.BaseValue = baseValue;
+        OnValueUpdated();
     }
 
     public virtual bool RemoveAllModifiersFromSource(object source)
@@ -84,13 +92,13 @@ public class Stat
             }
         }
 
-        if(didRemove)
+        if (didRemove)
         {
             OnValueUpdated();
         }
         return didRemove;
     }
-    
+
     protected virtual void CalculateFinalValue() // should this still return float?
     {
         // To fix the inspector updating everytime which causes weird issues. I'm not saving results of the sort.
@@ -98,13 +106,13 @@ public class Stat
         List<StatModifier> mods = new List<StatModifier>(StatModifiers);
         mods.Sort();
 
-        float finalValue = BaseValue;
+        float finalValue = StatFormulas.formulaMap[Type](sheet, BaseValue);
         float sumPercentAdd = 0;
 
         for (int i = 0; i < mods.Count; i++)
         {
             StatModifier mod = mods[i];
-            switch(mod.ModType)
+            switch (mod.ModType)
             {
                 case StatModifierType.Flat:
                     finalValue += mod.Value;

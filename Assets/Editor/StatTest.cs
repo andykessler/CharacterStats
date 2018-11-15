@@ -128,4 +128,43 @@ public class StatTest
             Assert.That(m.Source, Is.Not.EqualTo(source2));
     }
 
+
+    // The following tests assume StatSheet works as expected,
+    // and focus on interactions between multiple Stats and "derived" values.
+    // Probably want to revist the above tests to account for addition of formulas.
+    [Test]
+    public void CalculateFinalValueUsingFormula_Test()
+    {
+        StatSheet sheet = new StatSheet();
+
+        Stat dexterity = sheet.Get(StatType.Dexterity);
+        dexterity.SetBaseValue(100f);
+
+        Stat crit = sheet.Get(StatType.CriticalHit);
+
+        Assert.That(dexterity.Value, Is.EqualTo(100f));
+        Assert.That(crit.BaseValue, Is.EqualTo(0f));
+        Assert.That(crit.Value, Is.EqualTo(15f));
+    }
+
+    [Test]
+    public void UpdateWhenDependentStatUpdates_Test() 
+    {
+        StatSheet sheet = new StatSheet();
+
+        Stat dexterity = sheet.Get(StatType.Dexterity);
+        dexterity.SetBaseValue(100f);
+
+        Stat crit = sheet.Get(StatType.CriticalHit);
+
+        Assert.That(dexterity.Value, Is.EqualTo(100f));
+        Assert.That(crit.BaseValue, Is.EqualTo(0f));
+        Assert.That(crit.Value, Is.EqualTo(15f));
+
+        dexterity.AddModifier(new StatModifier(StatType.Strength, StatModifierType.Flat, 100f));
+
+        Assert.That(dexterity.Value, Is.EqualTo(200f));
+        Assert.That(crit.Value, Is.EqualTo(30f));
+    }
+
 }
