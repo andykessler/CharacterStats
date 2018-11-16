@@ -5,7 +5,12 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class CharacterStats : MonoBehaviour {
 
-    public StatSheet stats;
+    private StatSheet stats;
+    public StatSheet Stats {
+        get {
+            return stats;
+        }
+    }
 
     void Start () {
         stats = new StatSheet();    
