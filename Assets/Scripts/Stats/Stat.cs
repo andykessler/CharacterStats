@@ -7,7 +7,17 @@ using UnityEngine;
 public class Stat
 {
     public StatType Type;
-    public float BaseValue = 0; // TODO Remove public visibility to avoid rogue changes
+
+    private float baseValue;
+    public float BaseValue {
+        get {
+            return baseValue;
+        }
+        set {
+            baseValue = value;
+            OnValueUpdated();
+        }
+    }
 
     public List<StatModifier> StatModifiers;
     private Dictionary<StatModifierType, List<StatModifier>> modMap;
@@ -51,7 +61,6 @@ public class Stat
     public Stat(float baseValue) : this()
     {
         BaseValue = baseValue;
-        Invalidate();
     }
 
     public Stat(StatType type) : this()
@@ -63,7 +72,6 @@ public class Stat
     {
         BaseValue = baseValue;
         Type = type;
-        Invalidate();
     }
 
     public virtual void AddModifier(StatModifier mod)
@@ -84,11 +92,6 @@ public class Stat
             return true;
         }
         return false;
-    }
-
-    public virtual void SetBaseValue(float baseValue) {
-        this.BaseValue = baseValue;
-        OnValueUpdated();
     }
 
     public virtual bool RemoveAllModifiersFromSource(object source)

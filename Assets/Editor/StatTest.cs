@@ -30,7 +30,7 @@ public class StatTest
     {
         StatModifier mod = new StatModifier(StatType.Strength, StatModifierType.Flat, 10f);
         Stat stat = new Stat();
-   
+        
         Assert.That(stat.StatModifiers.Count, Is.EqualTo(0));
 
         stat.AddModifier(mod);
@@ -73,7 +73,7 @@ public class StatTest
         float finalValue = (baseValue + 90f) * (2f) * (2f * 2.5f);
 
         Assert.That(stat.Value, Is.EqualTo(baseValue));
-       
+
         foreach(var m in mods)
             stat.AddModifier(m);
 
@@ -138,7 +138,7 @@ public class StatTest
         StatSheet sheet = new StatSheet();
 
         Stat dexterity = sheet.Get(StatType.Dexterity);
-        dexterity.SetBaseValue(100f);
+        dexterity.BaseValue = 100f;
 
         Stat crit = sheet.Get(StatType.CriticalHit);
 
@@ -153,7 +153,7 @@ public class StatTest
         StatSheet sheet = new StatSheet();
 
         Stat dexterity = sheet.Get(StatType.Dexterity);
-        dexterity.SetBaseValue(100f);
+        dexterity.BaseValue = 100f;
 
         Stat crit = sheet.Get(StatType.CriticalHit);
 
