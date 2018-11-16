@@ -148,7 +148,7 @@ public class StatTest
     }
 
     [Test]
-    public void UpdateWhenDependentStatUpdates_Test() 
+    public void UpdatesWhenDependentStatUpdates_Test() 
     {
         StatSheet sheet = new StatSheet();
 
@@ -165,6 +165,19 @@ public class StatTest
 
         Assert.That(dexterity.Value, Is.EqualTo(200f));
         Assert.That(crit.Value, Is.EqualTo(30f));
+    }
+
+    [Test]
+    public void UpdatesWhenStatModifierUpdates_Test() {
+        StatSheet sheet = new StatSheet();
+        Stat strength = sheet.Get(StatType.Strength);
+        StatModifier mod = new StatModifier(StatType.Strength, StatModifierType.Flat, 9f);
+
+        Assert.That(strength.Value, Is.EqualTo(0f));
+        strength.AddModifier(mod);
+        Assert.That(strength.Value, Is.EqualTo(9f));
+        mod.Value = 42f;
+        Assert.That(strength.Value, Is.EqualTo(42f));
     }
 
 }
