@@ -3,10 +3,38 @@
 [Serializable]
 public class StatModifier : IComparable<StatModifier> {
 
-    public StatType StatType;
+    // Should StatType be able to change after instantiation?
+    public StatType StatType; 
+    
+    // Should StatModifierType be able to change after instantiation?
     public StatModifierType ModType;
-    public float Value;
+
+    private float _value;
+    public float Value 
+    {
+        get {
+            return _value;
+        }
+        set {
+            _value = value;
+            OnStatModifierUpdated();
+        }
+    }
+
     public object Source; // is this worth?
+
+    public delegate void StatModifierUpdatedHandler();
+    private event StatModifierUpdatedHandler OnStatModifierUpdated;
+
+    public void RegisterOnValueUpdatedHandler(StatModifierUpdatedHandler handler)
+    {
+        OnStatModifierUpdated += handler;
+    }
+
+    public void UnregisterOnValueUpdatedHandler(StatModifierUpdatedHandler handler)
+    {
+        OnStatModifierUpdated -= handler;
+    }
 
     protected int Order
     {
@@ -19,7 +47,7 @@ public class StatModifier : IComparable<StatModifier> {
     {
         StatType = statType;
         ModType = modType;
-        Value = value;
+        _value = value; // if set with Value, will get null pointer since Updated handler has nothing registered yet
         Source = source;
     }
 

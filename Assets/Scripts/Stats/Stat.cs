@@ -70,6 +70,7 @@ public class Stat
     {
         StatModifiers.Add(mod);
         modMap[mod.ModType].Add(mod);
+        mod.RegisterOnValueUpdatedHandler(this.Invalidate);
         OnValueUpdated();
     }
 
@@ -79,6 +80,7 @@ public class Stat
         {
             OnValueUpdated();
             modMap[mod.ModType].Remove(mod);
+            mod.UnregisterOnValueUpdatedHandler(this.Invalidate);
             return true;
         }
         return false;
@@ -91,13 +93,17 @@ public class Stat
 
     public virtual bool RemoveAllModifiersFromSource(object source)
     {
-        bool didRemove = false;
+        bool didRemove = false; // one-way flag to know if an update is needed
+        // iterate backwards since potentially removing items.
         for (int i = StatModifiers.Count - 1; i >= 0; i--)
         {
             if (StatModifiers[i].Source == source)
             {
-                didRemove = true;
+                StatModifier mod = StatModifiers[i];
                 StatModifiers.RemoveAt(i);
+                modMap[mod.ModType].Remove(mod);
+                mod.UnregisterOnValueUpdatedHandler(this.Invalidate);
+                didRemove = true;
             }
         }
 
@@ -108,7 +114,7 @@ public class Stat
         return didRemove;
     }
 
-    protected virtual void CalculateFinalValue() // should this return float?
+    protected virtual void CalculateFinalValue()
     {
         float derivedValue = StatFormulas.formulaMap[Type](sheet, BaseValue);
         float flatSum = modMap[StatModifierType.Flat].Sum(x => x.Value);
@@ -127,6 +133,6 @@ public class Stat
 
     public void Invalidate()
     {
-        OnValueUpdated(); // alias for now I guess?
+        OnValueUpdated();
     }
 }
