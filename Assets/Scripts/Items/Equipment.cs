@@ -12,7 +12,7 @@ public abstract class Equipment : Item
     {
         foreach(StatModifier mod in StatModifiers)
         {
-            cs.stats.Get(mod.StatType).AddModifier(mod);
+            cs.Stats.Get(mod.StatType).AddModifier(mod);
         }
     }
 
@@ -20,7 +20,7 @@ public abstract class Equipment : Item
     {
         foreach (StatModifier mod in StatModifiers)
         {
-            cs.stats.Get(mod.StatType).RemoveModifier(mod);
+            cs.Stats.Get(mod.StatType).RemoveModifier(mod);
         }
     }
 }
