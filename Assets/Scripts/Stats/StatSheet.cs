@@ -19,6 +19,16 @@ public class StatSheet {
         RegisterStatFormulaDependencies();
     }
 
+    // assumes we still want every Stat defined in map.
+    public StatSheet(StatPresets presets) : this()
+    {
+        // this naming could be better.
+        if(presets != null && presets.presets != null)
+        {
+            presets.presets.ForEach(p => stats[p.statType].BaseValue = p.baseValue);
+        }
+    }
+
     public Stat Get(StatType type)
     {
         return stats[type];

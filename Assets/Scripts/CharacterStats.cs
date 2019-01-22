@@ -5,10 +5,34 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class CharacterStats : MonoBehaviour {
 
-    public StatSheet stats;
+    public StatPresets presets;
 
-    void Start () {
-        stats = new StatSheet();    
+    private StatSheet stats;
+    public StatSheet Stats {
+        get {
+            return stats;
+        }
+    }
+
+    public void AddStatModifier(StatModifier statModifier)
+    {
+        stats.Get(statModifier.StatType).AddModifier(statModifier);
+    }
+
+    public bool RemoveStatModifier(StatModifier statModifier)
+    {
+        return stats.Get(statModifier.StatType).RemoveModifier(statModifier);
+    }
+
+    void Awake () {
+        if(presets != null)
+        {
+            stats = new StatSheet(presets);
+        }
+        else
+        {
+            stats = new StatSheet();
+        }
     }
 
     void Update () {

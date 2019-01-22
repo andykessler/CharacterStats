@@ -6,6 +6,7 @@ using UnityEngine;
 [Serializable]
 public class Stat
 {
+
     public StatType Type;
 
     private float baseValue;

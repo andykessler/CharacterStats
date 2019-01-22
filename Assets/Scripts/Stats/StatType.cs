@@ -5,4 +5,5 @@
     Intellect,
     Constitution,
     CriticalHit,
+    MaxHealth,
 }

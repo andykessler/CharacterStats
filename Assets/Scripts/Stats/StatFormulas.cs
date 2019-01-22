@@ -19,6 +19,7 @@ public static class StatFormulas {
         { Intellect, null },
         { Constitution, null },
         { CriticalHit, new StatType[] { Dexterity } },
+        { MaxHealth, new StatType [] { Strength, Constitution } },
     };
 
     public static readonly Dictionary<StatType, Formula> formulaMap = new Dictionary<StatType, Formula>
@@ -28,6 +29,8 @@ public static class StatFormulas {
         { Intellect, identity },
         { Constitution, identity },
         { CriticalHit, (s, b) => b + (0.15f * s.Get(Dexterity).Value) }, // example "derived" formula
+        { MaxHealth, (s, b) => b + (10 * s.Get(Constitution).Value) + (3 * s.Get(Strength).Value) },
     };
+
     
 }
