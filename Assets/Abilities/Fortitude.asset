@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 508a4701a5315e8489d4b92b96611abc, type: 3}
+  m_Name: Fortitude
+  m_EditorClassIdentifier: 
+  targetEffect: {fileID: 11400000, guid: a3e3686eac6b12e4fa900feaecd7de81, type: 2}
+  cooldownMax: 0

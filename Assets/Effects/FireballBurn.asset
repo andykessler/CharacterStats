@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9b3b67bf9917e14fbc9fb62c57d5ec5, type: 3}
+  m_Name: FireballBurn
+  m_EditorClassIdentifier: 
+  duration: 5
+  tickSpeed: 1
+  applyEffects: []
+  tickEffects:
+  - {fileID: 11400000, guid: a526af6356e1fe54882a57edd5df1fda, type: 2}
+  expireEffects: []
