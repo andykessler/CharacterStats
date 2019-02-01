@@ -1,6 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour, ITargetable
+{
+    [SerializeField]
+    TargetType targetType;
+    public TargetType TargetType
+    {
+        get {
+            return targetType;
+        }
+    }
 
     public float speed = 5f; // get from somewhere else (i.e. stats)?
 
@@ -11,11 +21,11 @@ public class PlayerController : MonoBehaviour {
     Quaternion targetRotation;
 
     bool isMoving;
-    
+
     // This is temporary movement logic until we get simple game loop implemented.
     // For early development will let characters run around free reign interacting with world.
     // Afterwards will constrain with the turn-based system.
-	void Update () {
+    void Update () {
         if (Input.GetMouseButtonUp(1) || Input.GetMouseButton(1))
         {
             Plane plane = new Plane(Vector3.up, transform.position); // Revisit 'inPoint' param
@@ -45,5 +55,5 @@ public class PlayerController : MonoBehaviour {
                 isMoving = false;
             }
         }
-	}
+    }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class Effect : ScriptableObject {
 
@@ -12,7 +10,7 @@ public abstract class Effect : ScriptableObject {
         this.target = target;
     }
 
-    public virtual void Tick()
+    public virtual void Tick(float deltaTime)
     {
 
     }

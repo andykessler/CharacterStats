@@ -21,18 +21,17 @@ public class CharacterEquipment : MonoBehaviour {
         stats = GetComponent<CharacterStats>();
     }
 
-
     public Armor armorSample;
 
     void Update()
     {
         // Test Controller to Play With Equipment + StatModifiers
-        if (Input.GetKeyUp(KeyCode.Alpha4))
+        if (Input.GetKeyUp(KeyCode.E))
         {
             EquipArmor(armorSample);
         }
 
-        if(Input.GetKeyUp(KeyCode.Alpha5))
+        if(Input.GetKeyUp(KeyCode.U))
         {
             UnequipArmor(armorSample);
         }

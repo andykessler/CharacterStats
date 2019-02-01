@@ -1,37 +1,64 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterEffects : MonoBehaviour {
+public class CharacterEffects : MonoBehaviour, IEffectable, ITickable {
 
+    [SerializeField]
     private List<Effect> effects;
+    public List<Effect> Effects {
+        get {
+            return effects;
+        }
+    }
 
-    private DamageEffect damageEffect;
-    private TimedEffect timedEffect;
 
-	// Use this for initialization
+
+    private Queue<Effect> removalQueue;
+    
 	void Start () {
-        damageEffect = ScriptableObject.CreateInstance<DamageEffect>();
-        damageEffect.damage = 10;
-
-        timedEffect = ScriptableObject.CreateInstance<TimedEffect>();
-        timedEffect.duration = 10;
-        timedEffect.tickSpeed = 1;
-        timedEffect.tickEffects.Add(damageEffect);
+        effects = new List<Effect>();
+        removalQueue = new Queue<Effect>();
     }
 	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetKeyUp(KeyCode.Alpha8))
-        {
-            damageEffect.Apply(transform);
+	public void Tick(float deltaTime) {
+        foreach(Effect e in Effects){
+            e.Tick(1);
         }
+        ClearRemovalQueue(); // delay removals to not modify enumerator above
+    }
 
-        if (Input.GetKeyUp(KeyCode.Alpha9))
+    public void ApplyEffects(Effect[] effects)
+    {
+        foreach(Effect e in effects)
         {
-            timedEffect.Apply(transform);
+            ApplyEffect(e);
         }
     }
 
-    
+    public void ApplyEffect(Effect effect)
+    {
+        effect.Apply(transform);
+    }
+
+    public void RemoveEffect(Effect effect)
+    {
+        removalQueue.Enqueue(effect);
+    }
+
+    public void RegisterEffect(Effect effect)
+    {
+        Effects.Add(effect);
+    }
+
+    private void ClearRemovalQueue()
+    {
+        while(removalQueue.Count > 0)
+        {
+            Effect e = removalQueue.Dequeue();
+            if(!Effects.Remove(e))
+            {
+                Debug.Log("Error while removing " + e.name);
+            }
+        }
+    }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
+[CreateAssetMenu()]
 public class StatModifierEffect : Effect
 {
 
@@ -14,8 +14,8 @@ public class StatModifierEffect : Effect
         targetStats = target.GetComponent<CharacterStats>();
         if(targetStats != null)
         {
+            Debug.Log("Adding StatModifier Effect.");
             targetStats.AddStatModifier(statModifier);
-            Debug.Log("Added StatModifier Effect.");
         }
     }
 
@@ -23,6 +23,7 @@ public class StatModifierEffect : Effect
     public override void Expire()
     {
         base.Expire();
+        Debug.Log("Removing StatModifier Effect.");
         bool removed = targetStats.RemoveStatModifier(statModifier);
         if (removed)
         {

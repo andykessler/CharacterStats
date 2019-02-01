@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 
+[CreateAssetMenu()]
 public class DamageEffect : Effect
 {
-
     public float damage = 1f;
 
     // what about SO.CreateInstance? does that use constructor?

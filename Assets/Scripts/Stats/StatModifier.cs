@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 [Serializable]
 public class StatModifier : IComparable<StatModifier> {
@@ -9,6 +10,7 @@ public class StatModifier : IComparable<StatModifier> {
     // Should StatModifierType be able to change after instantiation?
     public StatModifierType ModType;
 
+    [SerializeField]
     private float _value;
     public float Value 
     {

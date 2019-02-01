@@ -1,27 +1,20 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
-// Currently is just AreaEffect
+[CreateAssetMenu()]
 public class TargetEffect : Effect
 {
-    // TODO Extract to TargetSystem objects?
-    public float radius;
-    public int maxTargets;
+    public TargetSystem targetSystem;
 
     public List<Effect> effects;
 
     public override void Apply(Transform target)
     {
         base.Apply(target);
-        Collider[] hitColliders = Physics.OverlapSphere(target.position, radius);
-        int numTargets = 0;
-        foreach(Collider c in hitColliders) {
-            if(numTargets >= maxTargets) {
-                break; // Reached max number of targets. Exit loop early.
-            }
-            effects.ForEach(e => c.SendMessage("ApplyEffect", e)); // TODO Implement 'ApplyEffect' messsage.
-            numTargets++;
+        List<Transform> targets = targetSystem.AcquireTargets(target.position);
+        foreach(Transform t in targets) {
+            IEffectable e = t.GetComponent<IEffectable>();
+            e.ApplyEffects(effects.ToArray());
         }
     }
 }
