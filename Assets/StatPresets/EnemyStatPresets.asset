@@ -9,18 +9,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c32f1f9c38108dc4a8344a2ffbc6eccd, type: 3}
-  m_Name: WarriorStatPresets
+  m_Name: EnemyStatPresets
   m_EditorClassIdentifier: 
   presets:
-  - statType: 0
-    baseValue: 7
-  - statType: 1
-    baseValue: 4
-  - statType: 2
-    baseValue: 2
-  - statType: 3
-    baseValue: 100
-  - statType: 4
-    baseValue: 4.2
   - statType: 5
-    baseValue: 12
+    baseValue: 500

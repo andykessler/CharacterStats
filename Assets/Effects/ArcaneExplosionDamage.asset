@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Name: ArcaneExplosionDamage
   m_EditorClassIdentifier: 
   damage: 100
+  damageType: 3

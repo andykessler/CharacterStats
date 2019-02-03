@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Name: HolyNovaBranch
   m_EditorClassIdentifier: 
   branches:
-  - targetTypes: 0000000001000000
+  - targetTypes: 3
     effects:
     - {fileID: 11400000, guid: bad2c3b50e106a749ae03871fb6e36b4, type: 2}
-  - targetTypes: 02000000
+  - targetTypes: 4
     effects:
     - {fileID: 11400000, guid: b176a6eb7081f834ea3a03e49432fa33, type: 2}

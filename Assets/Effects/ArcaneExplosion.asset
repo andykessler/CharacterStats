@@ -15,7 +15,7 @@ MonoBehaviour:
     distance: 0
     arc: 360
     radius: 10
-    maxTargets: 3
-    targetTypes: 0200000000000000
+    maxTargets: 10
+    targetTypes: 4
   effects:
   - {fileID: 11400000, guid: 970f657e1892fd541b80acec878dfd4b, type: 2}

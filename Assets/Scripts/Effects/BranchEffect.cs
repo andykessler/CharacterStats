@@ -22,6 +22,7 @@ public class BranchEffect : Effect
             effects.Add(effect);
         }
 
+        [EnumFlags]
         public TargetType targetTypes;
         public List<Effect> effects;
     }

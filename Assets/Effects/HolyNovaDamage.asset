@@ -11,4 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a44f9de961928d4989c7f3a5c8a44f7, type: 3}
   m_Name: HolyNovaDamage
   m_EditorClassIdentifier: 
-  damage: 25
+  damage: 50
+  damageType: 6

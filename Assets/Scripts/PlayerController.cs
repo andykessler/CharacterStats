@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour, ITargetable
 {
     [SerializeField]
+    [EnumFlags]
     TargetType targetType;
     public TargetType TargetType
     {

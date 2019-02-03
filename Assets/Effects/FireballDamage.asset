@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Name: FireballDamage
   m_EditorClassIdentifier: 
   damage: 50
+  damageType: 1
