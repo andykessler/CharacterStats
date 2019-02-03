@@ -36,7 +36,7 @@ public class TargetSystem {
     }
 
     public bool IsValidTarget(ITargetable target) {
-        return (targetTypes & target.TargetType) != TargetType.None;
+        return (targetTypes & target.TargetType) != 0;
     }
 
 }

@@ -46,7 +46,7 @@ public class BranchEffect : Effect
         base.Apply(target);
         TargetType targetType = target.GetComponent<ITargetable>().TargetType;
         branches.ForEach(b => {
-            if ((b.targetTypes & targetType) != TargetType.None)
+            if ((b.targetTypes & targetType) != 0)
                 b.effects.ForEach(e => e.Apply(target));
         });
     }
