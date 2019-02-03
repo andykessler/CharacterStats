@@ -12,7 +12,9 @@ public class TargetSystem {
     public float radius = 0; // 0 is point/single target
     //public int minTargets = 0;
     public int maxTargets = 1;
-    public List<TargetType> targetTypes;
+
+    [EnumFlags]
+    public TargetType targetTypes;
 
     public List<Transform> AcquireTargets(Vector3 origin)
     {
@@ -34,7 +36,7 @@ public class TargetSystem {
     }
 
     public bool IsValidTarget(ITargetable target) {
-        return targetTypes.Contains(target.TargetType);
+        return (targetTypes & target.TargetType) != TargetType.None;
     }
 
 }

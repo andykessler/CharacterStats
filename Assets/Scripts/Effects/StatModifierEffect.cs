@@ -1,12 +1,19 @@
 ﻿using UnityEngine;
+using UnityEditor;
 
 [CreateAssetMenu()]
 public class StatModifierEffect : Effect
 {
-
     public StatModifier statModifier;
 
     private CharacterStats targetStats;
+
+    public override void OnGUI()
+    {
+        statModifier.StatType = (StatType) EditorGUILayout.EnumPopup(statModifier.StatType);
+        statModifier.ModType = (StatModifierType) EditorGUILayout.EnumPopup(statModifier.ModType);
+        statModifier.Value = EditorGUILayout.FloatField(statModifier.Value);
+    }
 
     public override void Apply(Transform target)
     {

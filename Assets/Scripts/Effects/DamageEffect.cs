@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
+using UnityEditor;
 
 [CreateAssetMenu()]
 public class DamageEffect : Effect
 {
     public float damage = 1f;
+    public DamageType damageType;
 
-    // what about SO.CreateInstance? does that use constructor?
-    public DamageEffect(float damage)
+    public override void OnGUI()
     {
-        this.damage = damage;
+        damage = EditorGUILayout.FloatField("Damage", damage);
+        damageType = (DamageType) EditorGUILayout.EnumPopup("Type", damageType);
     }
     
     public override void Apply(Transform target)

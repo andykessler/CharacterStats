@@ -24,7 +24,7 @@ public class CharacterStats : MonoBehaviour {
         return stats.Get(statModifier.StatType).RemoveModifier(statModifier);
     }
 
-    void Awake () {
+    public void Awake () {
         if(presets != null)
         {
             stats = new StatSheet(presets);
@@ -37,5 +37,10 @@ public class CharacterStats : MonoBehaviour {
 
     void Update () {
         
+    }
+
+    public Stat Get(StatType statType)
+    {
+        return Stats.Get(statType);
     }
 }

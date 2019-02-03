@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections.Generic;
 
 [CreateAssetMenu()]
@@ -17,6 +18,27 @@ public class TimedEffect : Effect
     private float elapsed;
 
     private IEffectable effectable; // what about multiple effectables?
+
+    public override void OnGUI()
+    {
+        duration = EditorGUILayout.FloatField(duration);
+        tickSpeed = EditorGUILayout.FloatField(tickSpeed);
+        applyEffects.ForEach(e =>
+        {
+            e.OnGUI();
+            // TODO Add/Remove effects
+        });
+        tickEffects.ForEach(e =>
+        {
+            e.OnGUI();
+            // TODO Add/Remove effects
+        });
+        expireEffects.ForEach(e =>
+        {
+            e.OnGUI();
+            // TODO Add/Remove effects
+        });
+    }
 
     public TimedEffect()
     {

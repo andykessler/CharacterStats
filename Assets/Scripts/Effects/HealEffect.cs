@@ -1,9 +1,15 @@
 ﻿using UnityEngine;
+using UnityEditor;
 
 [CreateAssetMenu()]
 public class HealEffect : Effect
 {
     public float heal = 1f;
+
+    public override void OnGUI()
+    {
+        heal = EditorGUILayout.FloatField("Heal", heal);
+    }
 
     public override void Apply(Transform target)
     {

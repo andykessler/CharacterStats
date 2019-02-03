@@ -18,7 +18,7 @@ public class Health : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void Start()
     {
         healthStat = GetComponent<CharacterStats>().Stats.Get(StatType.MaxHealth);
         healthStat.RegisterOnValueUpdatedHandler(AdjustForMaxHealth);
