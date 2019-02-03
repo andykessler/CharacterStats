@@ -4,18 +4,22 @@ using System.Collections.Generic;
 [CreateAssetMenu]
 public class Ability : ScriptableObject
 {
-    // TODO Use TargetSystem for initial targeting
-    // Replace with List<Effect> to apply to targets from TargetSystem.
-    public TargetEffect targetEffect;
     public float cooldownMax;
+    // TODO Use TargetSystem for initial targeting of ability
+    public TargetSystem targetSystem;
+    // TODO Consider "MultipleEffect" to group Effects under single Effect object
+    public List<Effect> effects; 
 
     private float cooldownTimer;
 
-    public void Use(Transform t)
+    public void Use(Transform caster)
     {
         if (CanUse())
         {
-            targetEffect.Apply(t);
+            targetSystem.AcquireTargets(caster.position).ForEach(target =>
+            {
+                effects.ForEach(e => e.Apply(target));
+            });
             cooldownTimer = cooldownMax;
         }
         else

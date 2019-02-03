@@ -11,5 +11,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 508a4701a5315e8489d4b92b96611abc, type: 3}
   m_Name: Fortitude
   m_EditorClassIdentifier: 
-  targetEffect: {fileID: 11400000, guid: a3e3686eac6b12e4fa900feaecd7de81, type: 2}
   cooldownMax: 0
+  targetSystem:
+    distance: 0
+    arc: 360
+    radius: 10
+    maxTargets: 10
+    targetTypes: 3
+  effects:
+  - {fileID: 11400000, guid: 5bc4c9506715b504694e10858a3c5368, type: 2}

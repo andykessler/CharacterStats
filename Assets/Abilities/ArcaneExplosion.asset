@@ -11,5 +11,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 508a4701a5315e8489d4b92b96611abc, type: 3}
   m_Name: ArcaneExplosion
   m_EditorClassIdentifier: 
-  targetEffect: {fileID: 11400000, guid: 94f702771a2964944bfe05a2243ea252, type: 2}
   cooldownMax: 1
+  targetSystem:
+    distance: 0
+    arc: 360
+    radius: 10
+    maxTargets: 10
+    targetTypes: 4
+  effects:
+  - {fileID: 11400000, guid: 970f657e1892fd541b80acec878dfd4b, type: 2}

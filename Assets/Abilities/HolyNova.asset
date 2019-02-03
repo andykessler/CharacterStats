@@ -11,5 +11,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 508a4701a5315e8489d4b92b96611abc, type: 3}
   m_Name: HolyNova
   m_EditorClassIdentifier: 
-  targetEffect: {fileID: 11400000, guid: 996b506d9fb7ca64dae189e71b4d62e9, type: 2}
   cooldownMax: 0
+  targetSystem:
+    distance: 0
+    arc: 360
+    radius: 10
+    maxTargets: 10
+    targetTypes: 7
+  effects:
+  - {fileID: 11400000, guid: 759074bcaae99de4d9fa358cd4352b11, type: 2}
